@@ -170,16 +170,16 @@
                 if (applyTo === 'background') {
                     output.style.backgroundColor = `rgb(${closestColor.rgb[0]}, ${closestColor.rgb[1]}, ${closestColor.rgb[2]})`;
                     if (closestColor.rgb[0] + closestColor.rgb[1] + closestColor.rgb[2] < 384) {
-                        output.style.color = '#ccc';
+                        output.style.color = '#eee';
                     } else {
-                        output.style.color = '#333';
+                        output.style.color = '222';
                     }
                 } else {
                     output.style.color = `rgb(${closestColor.rgb[0]}, ${closestColor.rgb[1]}, ${closestColor.rgb[2]})`;
                     if (closestColor.rgb[0] + closestColor.rgb[1] + closestColor.rgb[2] < 384) {
                         output.style.backgroundColor = '#eee';
                     } else {
-                        output.style.backgroundColor = '#333';
+                        output.style.backgroundColor = '#222';
                     }
                 }
 
