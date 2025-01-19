@@ -98,6 +98,7 @@
         <br>
         <div id="seperator"></div>
         <div id="output" class="output">Ansi output here</div>
+        <p id="percentage-display">Closeness (%) to color here</p>
         <div id="seperator"></div>
         <button id="applyButton">Apply</button>
         <br>
@@ -140,8 +141,7 @@
             }
 
             function findClosestAnsi(rgb) {
-                let closestColor = null;
-                let closestDistance = Infinity;
+                const closestColors = []; // Array to store distances for all colors
 
                 ansiColors.forEach(color => {
                     const distance = Math.sqrt(
@@ -150,13 +150,33 @@
                         Math.pow(color.rgb[2] - rgb[2], 2)
                     );
 
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestColor = color;
-                    }
+                    // Add color and distance to the array
+                    closestColors.push({ color, distance });
                 });
 
-                return closestColor;
+                // Sort by distance in ascending order
+                closestColors.sort((a, b) => a.distance - b.distance);
+
+                // Function to find the color with the highest similarity percentage
+                function findBestColor(colors) {
+                    const maxDistance = Math.sqrt(255 ** 2 + 255 ** 2 + 255 ** 2); // Maximum distance in RGB space
+                    let bestColor = null;
+                    let bestPercentage = -Infinity;
+
+                    colors.forEach(({ color, distance }) => {
+                        const similarityPercentage = ((maxDistance - distance) / maxDistance) * 100;
+
+                        if (similarityPercentage > bestPercentage) {
+                            bestColor = color;
+                            bestPercentage = similarityPercentage;
+                        }
+                    });
+
+                    return [bestColor, bestPercentage];
+                }
+
+                // Process the top 3 closest colors
+                return findBestColor(closestColors.slice(0, 3));
             }
 
             document.getElementById('applyButton').addEventListener('click', () => {
@@ -165,14 +185,19 @@
                 const output = document.getElementById('output');
 
                 const rgb = hexToRgb(color);
-                const closestColor = findClosestAnsi(rgb);
+                const colorSelected = findClosestAnsi(rgb);
+                const closestColor = colorSelected[0];
+                const closestPercentange = colorSelected[1];
+
+                document.getElementById('percentage-display').textContent = `Closeness value: ${closestPercentange.toFixed(2)}%`;
 
                 if (applyTo === 'background') {
                     output.style.backgroundColor = `rgb(${closestColor.rgb[0]}, ${closestColor.rgb[1]}, ${closestColor.rgb[2]})`;
+
                     if (closestColor.rgb[0] + closestColor.rgb[1] + closestColor.rgb[2] < 384) {
                         output.style.color = '#eee';
                     } else {
-                        output.style.color = '222';
+                        output.style.color = '#222';
                     }
                 } else {
                     output.style.color = `rgb(${closestColor.rgb[0]}, ${closestColor.rgb[1]}, ${closestColor.rgb[2]})`;
