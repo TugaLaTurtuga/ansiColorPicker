@@ -67,6 +67,8 @@
             cursor: pointer;
 
             transition: all .4s ease;
+            font-weight: bold;
+            font-size: 20px;
         }
         #closestColor {
             cursor: pointer;
@@ -226,6 +228,7 @@
             saveSettings();
         }
 
+        const maxNum = 248;
         const ansiColors = [
             { name: 'Black', code: '0', rgb: [0, 0, 0] },
             { name: 'Red', code: '1', rgb: [205, 49, 49] },
@@ -288,7 +291,7 @@
             }
 
             // Process the top 3 closest colors
-            return findBestColor(closestColors.slice(0, document.getElementById('numberOfOut').max));
+            return findBestColor(closestColors.slice(0, maxNum));
         }
 
         document.getElementById('applyButton').addEventListener('click', () => {
@@ -522,7 +525,6 @@
         const outputsContainer = document.querySelector('.outputs-container');
 
         // avoids having more than all the ansi colors
-        const maxNum = 248;
         if (document.getElementById('numberOfOut').max > maxNum) document.getElementById('numberOfOut').max = maxNum;
 
         // Get the number of outputs from localStorage or default to 3
