@@ -521,10 +521,23 @@
 
         const outputsContainer = document.querySelector('.outputs-container');
 
+        // avoids having more than all the ansi colors
+        const maxNum = 248;
+        if (document.getElementById('numberOfOut').max > maxNum) document.getElementById('numberOfOut').max = maxNum;
+
         // Get the number of outputs from localStorage or default to 3
         let numberOfOutputs = localStorage.getItem('noo');
         if (!numberOfOutputs) numberOfOutputs = 3;
-        else document.getElementById('numberOfOut').value = numberOfOutputs;
+        else {
+            if (numberOfOutputs > maxNum) {
+                numberOfOutputs = maxNum;
+                document.getElementById('numberOfOut').value = numberOfOutputs;
+            } else {
+                document.getElementById('numberOfOut').value = numberOfOutputs;
+            }
+        }
+
+        
 
         document.getElementById('numberOfOut').addEventListener('input', function () {
             // Update the number of outputs on input change and store it in localStorage
