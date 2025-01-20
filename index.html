@@ -342,8 +342,8 @@
                 // Add event listener for mouse movement
                 outputContainer.addEventListener("mouseenter", (e) => {
                     const rect = outputContainer.getBoundingClientRect();
-                    const angleY = ( e.clientY - (rect.top + rect.height / 2) ) / 20;
-                    const angleX = ( e.clientX - (rect.left + rect.width / 2) ) / 25;
+                    const angleY = ( e.clientY - (rect.top + rect.height / 2) ) / 15;
+                    const angleX = ( e.clientX - (rect.left + rect.width / 2) ) / 20;
 
                     // Apply rotation based on cursor position
                     if (initialScale > 0.86) {
