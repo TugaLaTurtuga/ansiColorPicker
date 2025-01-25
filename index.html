@@ -51,7 +51,7 @@
         }
 
         .output-container:hover {
-            transform: scale(1.15);
+            transform: translateY(-20px);
             z-index: 18;
         }
 
@@ -145,6 +145,10 @@
             position: absolute;
             width: 70px;
             cursor: pointer;
+        }
+
+        p {
+            font-size: 20px;
         }
 
         #numberOfOut {
@@ -335,27 +339,19 @@
                 percentageDisplay.textContent = `${closestPercentage.toFixed(2)}%`;
 
                 
-                const initialScale = closestPercentage.toFixed(2) / 100;
+                const initialScale = closestPercentage.toFixed(2) / 100 / 1.15;
 
                 outputContainer.style.transform = `scale(${initialScale})`;
 
                 // Add event listener for mouse movement
                 outputContainer.addEventListener("mouseenter", (e) => {
-                    const rect = outputContainer.getBoundingClientRect();
-                    const angleY = ( e.clientY - (rect.top + rect.height / 2) ) / 15;
-                    const angleX = ( e.clientX - (rect.left + rect.width / 2) ) / 20;
-
-                    // Apply rotation based on cursor position
-                    if (initialScale > 0.86) {
-                        outputContainer.style.transform = `scale(${initialScale * 1.1}) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-                    } else {
-                        outputContainer.style.transform = `scale(0.92) rotateX(${angleX}deg) rotateY(${angleY}deg)`;
-                    }
+                    outputContainer.style.transform = `scale(${initialScale * 1.05}) translateY(-20px)`;
+                    output.style.transform = `translateY(-10px)`;
                 });
 
                 outputContainer.addEventListener("mouseleave", () => {
-                    // Reset to initial scale and rotation when the mouse leaves
-                    outputContainer.style.transform = `scale(${initialScale}) rotateX(0deg) rotateY(0deg)`;
+                    outputContainer.style.transform = `scale(${initialScale}) translateY(0px)`;
+                    output.style.transform = `translateY(0px)`;
                 });
 
 
